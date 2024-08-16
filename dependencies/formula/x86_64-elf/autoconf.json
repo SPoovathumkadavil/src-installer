@@ -1,0 +1,9 @@
+{
+    "name": "autoconf-2.72",
+    "method": "autoconf",
+    "link": "https://ftp.gnu.org/gnu/autoconf/[[name]].tar.gz",
+    "override": {
+        "make": ["make install"]
+    },
+    "dependencies": []
+}

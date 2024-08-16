@@ -1,0 +1,5 @@
+{
+    "build_directory": ["mkdir -p [[tmp]]/build-[[name]]", "cd [[tmp]]/build-[[name]]"],
+    "configure": ["[[tmp]]/[[name]]/configure --prefix=[[prefix]] --target=[[target]]"],
+    "make": ["make -j4", "make install"]
+}

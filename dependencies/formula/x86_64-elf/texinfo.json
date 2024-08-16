@@ -1,0 +1,6 @@
+{
+    "name": "texinfo-7.1",
+    "method": "autoconf",
+    "link": "https://ftp.gnu.org/gnu/texinfo/[[name]].tar.xz",
+    "dependencies": ["autoconf"]
+}

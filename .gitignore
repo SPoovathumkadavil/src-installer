@@ -1,0 +1,14 @@
+dependencies/cache/*
+bin/*
+src/__pycache__
+src/bin
+src/certifi
+src/certifi-2024.7.4.dist-info
+src/charset_normalizer
+src/charset_normalizer-3.3.2.dist-info
+src/idna
+src/idna-3.7.dist-info
+src/requests
+src/requests-2.32.3.dist-info
+src/urllib3
+src/urllib3-2.2.2.dist-info

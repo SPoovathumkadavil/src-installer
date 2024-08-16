@@ -1,0 +1,9 @@
+{
+    "name": "automake-1.16.5",
+    "method": "autoconf",
+    "link": "https://ftp.gnu.org/gnu/automake/[[name]].tar.xz",
+    "override": {
+        "make": ["make install"]
+    },
+    "dependencies": ["autoconf"]
+}
