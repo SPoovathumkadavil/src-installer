@@ -5,7 +5,7 @@ from coloring import colorize, Color
 def get_home_dir():
     return os.path.expanduser("~")
 
-TEST = True #TODO change
+TEST = False #TODO change
 
 APP_NAME = "src-installer"
 
