@@ -1,5 +1,6 @@
 import os
 import json
+from coloring import colorize, Color
 
 def get_home_dir():
     return os.path.expanduser("~")
@@ -19,12 +20,12 @@ if os.path.exists(LOC_FILE) and TEST is False:
         DEP_DIR = os.path.join(loc["dependencies"], APP_NAME)
         CONF_DIR = os.path.join(loc["config"], APP_NAME)
 else:
-    print("Using test values.")
+    print(colorize("using test values ...", Color.YELLOW))
 
 FORMULA_DIR = os.path.join(DEP_DIR, "formula")
 TARGET_DIR = os.path.join(DEP_DIR, "target")
 TMP_DIR = os.path.join(DEP_DIR, "cache")
 if os.path.exists(TMP_DIR) is False:
     os.mkdir(TMP_DIR)
-BUILD_INSTRUCTION_DIR = os.path.join(DEP_DIR, "b_instructions")
+BUILD_INSTRUCTION_DIR = os.path.join(CONF_DIR, "build_instructions")
 PREFIX = os.path.join(CWD, "environment")

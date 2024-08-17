@@ -3,6 +3,7 @@ import builder
 import sys
 import os
 import click
+import shutil
 from coloring import Color, colorize
 
 @click.group()
@@ -54,11 +55,19 @@ def install(target, prefix, no_run, use_downloads, keep_downloads, no_check_exis
     # running the script
     if no_run:
         print(colorize("skipping run ...", Color.YELLOW))
-    else:
+    else:   
         target_builder.run_build_script()
 
     print(colorize("process complete !", Color.GREEN))
 
+
+@main.command()
+def clean():
+    "clean the cache directory"
+    for i in os.listdir(boilerutils.TMP_DIR):
+        print(colorize("removing "+i, Color.CYAN))
+        shutil.rmtree(os.path.join(boilerutils.TMP_DIR, i))
+    print(colorize("process complete !", Color.GREEN))
 
 if __name__ == "__main__":
     main()
