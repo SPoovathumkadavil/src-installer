@@ -11,7 +11,8 @@ from coloring import Color, colorize
 def main(test):
     # test mode
     if test:
-         boilerutils.TEST = True
+        boilerutils.TEST = True
+    boilerutils.update()
 
 @main.command()
 @click.option("-f", "--formula", is_flag=True, default=False)

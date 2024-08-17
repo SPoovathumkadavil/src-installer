@@ -55,7 +55,7 @@ class Chunk:
     
     def to_build(self, check_exists: bool) -> str:
         self.resolve_method()
-        s_bs=""
+        s_bs=f"\n# {self.name}\n"
         if check_exists:
             s_bs += "if [ ! -f "+os.path.join(boilerutils.PREFIX, "bin", self.name)+" ]; then\n\t"
         s_bs += "echo \"installing "+self.name+"\"\n"
