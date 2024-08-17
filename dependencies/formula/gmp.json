@@ -1,0 +1,6 @@
+{
+  "name": "gmp-6.3.0",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/gmp/[[name]].tar.bz2",
+  "dependencies": ["m4"]
+}

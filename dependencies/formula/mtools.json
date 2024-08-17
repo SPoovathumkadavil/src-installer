@@ -1,0 +1,7 @@
+{
+  "name": "mtools-4.0.43",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/mtools/[[name]].tar.gz",
+  "add-configure": ["--disable-debug", "--without-x"],
+  "dependencies": ["autoconf", "gcc"]
+}

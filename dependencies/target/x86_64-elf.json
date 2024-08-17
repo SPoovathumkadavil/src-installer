@@ -1,0 +1,17 @@
+{
+  "formulas": [
+    "autoconf",
+    "automake",
+    "m4",
+    "texinfo",
+    "mpc",
+    "mpfr",
+    "gmp",
+    "libtool",
+    "mtools",
+    "binutils",
+    "gcc",
+    "gdb",
+    "nasm"
+  ]
+}

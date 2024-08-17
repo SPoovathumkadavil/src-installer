@@ -1,0 +1,21 @@
+{
+  "name": "gcc-14.1.0",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/[[name]].tar.gz",
+  "add-configure": [
+    "--disable-nls",
+    "--enable-languages=c,c++",
+    "--without-headers",
+    "--with-gmp=[[prefix]]",
+    "--with-mpc=[[prefix]]"
+  ],
+  "override": {
+    "make": [
+      "make -j 8 all-gcc",
+      "make all-target-libgcc",
+      "make install-gcc",
+      "make install-target-libgcc"
+    ]
+  },
+  "dependencies": ["autoconf", "gmp", "mpc", "binutils"]
+}

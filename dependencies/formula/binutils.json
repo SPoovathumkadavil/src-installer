@@ -1,0 +1,7 @@
+{
+  "name": "binutils-2.42",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/binutils/[[name]].tar.bz2",
+  "add-configure": ["--with-sysroot", "--disable-nls", "--disable-werror"],
+  "dependencies": ["autoconf", "automake", "texinfo"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "libtool-2.4",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/libtool/[[name]].tar.gz",
+  "add-configure": ["--disable-dependency-tracking", "--enable-ltdl-install"],
+  "dependencies": ["m4"]
+}

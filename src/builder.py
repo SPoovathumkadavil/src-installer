@@ -38,30 +38,34 @@ def run_command(command: list):
 def remove(file_name: str):
     os.remove(os.path.join(boilerutils.TMP_DIR, file_name))
 
-def download_handler(info: dict):
+def download_handler(info: dict, use_existing_download: bool, keep_download: bool):
     if info["method"] == "autoconf":
         link = info["link"]
         if "[[name]]" in link:
             link = link.replace("[[name]]", info["name"])
-        download_to_file(info["name"]+".tar", link)
+        if use_existing_download and os.path.exists(os.path.join(boilerutils.TMP_DIR, info["name"]+".tar")):
+            print(colorize("using existing download for "+info["name"], Color.YELLOW))
+        else:
+            download_to_file(info["name"]+".tar", link)
         untar(info["name"]+".tar")
-        remove(info["name"]+".tar")
+        if not keep_download:
+            remove(info["name"]+".tar")
     else:
         raise ValueError("unknown build method for "+info["name"])
 
 
-def sort_deps(r: str, t: str, n: list):
+def sort_deps(t: str, n: list):
     if t in n:
         return n
 
     # open target file
-    with open(os.path.join(boilerutils.FORMULA_DIR, r, t + ".json"), 'r') as f:
+    with open(os.path.join(boilerutils.FORMULA_DIR, t + ".json"), 'r') as f:
         info = json.load(f)
         if info["dependencies"] == []:
             n.append(t)
         else:
             for i in info["dependencies"]:
-                sort_deps(r, i, n)
+                sort_deps(i, n)
             n.append(t)
     return n
 
@@ -70,18 +74,17 @@ class Builder:
         self.target = target
 
         # the target is the directory, load files
-        self.target_files = os.listdir(os.path.join(boilerutils.FORMULA_DIR, self.target))
+        self.target_files = json.load(open(os.path.join(boilerutils.TARGET_DIR, target+".json")))["formulas"]
         self.build_order = []
         for i in self.target_files:
-            check = i.replace(".json", "")
-            self.build_order = sort_deps(self.target, check, self.build_order)
+            self.build_order = sort_deps(i, self.build_order)
     
     def load_build(self):
         self.chunks: list[build_chunk.Chunk] = []
         for i in self.build_order:
             # load json
             try:
-                chunk_info = json.load(open(os.path.join(boilerutils.FORMULA_DIR, self.target, i+".json")))
+                chunk_info = json.load(open(os.path.join(boilerutils.FORMULA_DIR, i+".json"), 'r'))
                 build_chunk.validate_chunk_info(i, chunk_info)
                 method = None
                 if chunk_info["method"] == "autoconf":
@@ -101,26 +104,27 @@ class Builder:
                 print(colorize("Error: " + repr(e), Color.RED))
                 return
     
-    def download_source(self):
+    def download_source(self, use_existing_downloads: bool=False, keep_downloads: bool=False):
         for i in self.chunks:
             f = i.find_formula()
             if f is not None:
                 print(colorize("downloading "+i.info.chunk_info["name"], Color.CYAN))
-                download_handler(f)
+                download_handler(f, use_existing_downloads, keep_downloads)
             else:
                 print(colorize("unable to download", i.name, "due to unfindable formula", Color.RED))
                 return
         print(colorize("download successful !", Color.GREEN))
     
-    def create_build_script(self):
+    def create_build_script(self, check_exists=True):
         scr = []
+        scr.append("export PATH=\"$PATH:"+boilerutils.PREFIX+"/bin\"\n")
         for i in self.chunks:
-            scr.append(i.to_build())
+            scr.append(i.to_build(check_exists))
         build_script = "\n".join(scr)
         self.build_file = os.path.join(boilerutils.TMP_DIR, "build_"+self.target+".sh")
         if os.path.exists(self.build_file):
             os.remove(self.build_file)
-            print("removed")
+            print(colorize("existing build script removed", Color.YELLOW))
         with open(self.build_file, 'w') as f:
             print(build_script, file=f)
         print(colorize("build script created !", Color.GREEN))

@@ -1,0 +1,7 @@
+{
+  "name": "mpfr-4.2.1",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/mpfr/[[name]].tar.bz2",
+  "add-configure": ["--disable-dependency-tracking", "--disable-debug", "--libdir=[[prefix]]/lib", "--with-gmp-include=[[prefix]]/include/", "--with-gmp-lib=[[prefix]]/lib", "--disable-silent-rules"],
+  "dependencies": ["gmp"]
+}

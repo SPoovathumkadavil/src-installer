@@ -1,0 +1,13 @@
+{
+  "name": "gdb-14.2",
+  "method": "autoconf",
+  "link": "https://ftp.gnu.org/gnu/gdb/[[name]].tar.gz",
+  "add-configure": ["--with-gmp=[[prefix]]", "--disable-werror"],
+  "override": {
+    "make": [
+      "make -j 8 all-gdb",
+      "make install-gdb"
+    ]
+  },
+  "dependencies": ["autoconf", "gmp"]
+}

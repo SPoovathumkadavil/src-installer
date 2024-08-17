@@ -2,6 +2,7 @@ import json
 import os
 from typing import Optional
 import boilerutils
+from coloring import Color, colorize
 
 def get_default_build_instruction(method: str):
     if method == "autoconf":
@@ -52,19 +53,24 @@ class Chunk:
     def add_configure_flag(self, flag: str) -> None:
         self.method["configure"][0] += " " + flag
     
-    def to_build(self) -> str:
+    def to_build(self, check_exists: bool) -> str:
         self.resolve_method()
-        s_bs = "if [ ! -d "+os.path.join(boilerutils.PREFIX, "bin", self.name)+" ]; then\n"
+        s_bs=""
+        if check_exists:
+            s_bs += "if [ ! -f "+os.path.join(boilerutils.PREFIX, "bin", self.name)+" ]; then\n\t"
+        s_bs += "echo \"installing "+self.name+"\"\n"
         for step in self.method:
             for i in range(len(self.method[step])):
-                s_bs+="\t"
+                if check_exists:
+                    s_bs+="\t"
                 s_bs+=self.method[step][i]
                 s_bs+="\n"
-        s_bs+="fi"
+        if check_exists:
+            s_bs+="fi"
         return s_bs
     
     def find_formula(self) -> Optional[dict]:
-        p = os.path.join(boilerutils.FORMULA_DIR, self.info.target, self.name + ".json")
+        p = os.path.join(boilerutils.FORMULA_DIR, self.name + ".json")
         if os.path.exists(p):
             return json.load(open(p, 'r'))
         return None

@@ -1,5 +1,6 @@
 {
     "build_directory": ["mkdir -p [[tmp]]/build-[[name]]", "cd [[tmp]]/build-[[name]]"],
     "configure": ["[[tmp]]/[[name]]/configure --prefix=[[prefix]] --target=[[target]]"],
-    "make": ["make -j4", "make install"]
+    "make": ["make -j4", "make install"],
+    "remove_dirs": ["rm -rf [[tmp]]/[[name]]", "rm -rf [[tmp]]/build-[[name]]"]
 }
