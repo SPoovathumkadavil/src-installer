@@ -67,7 +67,11 @@ def clean():
     "clean the cache directory"
     for i in os.listdir(boilerutils.TMP_DIR):
         print(colorize("removing "+i, Color.CYAN))
-        shutil.rmtree(os.path.join(boilerutils.TMP_DIR, i))
+        p = os.path.join(boilerutils.TMP_DIR, i)
+        if os.path.isdir(p):
+            shutil.rmtree(p)
+        elif os.path.isfile(p):
+            os.remove(p)
     print(colorize("process complete !", Color.GREEN))
 
 if __name__ == "__main__":
