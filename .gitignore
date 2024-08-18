@@ -1,5 +1,5 @@
 environment
-dependencies/cache/*
+library/cache/*
 bin/*
 src/__pycache__
 src/bin
