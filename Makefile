@@ -91,21 +91,3 @@ help:
 		@echo "  install     - Install the project"
 		@echo "  uninstall   - Uninstall the project"
 		@echo "  help        - Display this help message"
-		@echo "  loc         - Downloads loc-maker cli and uses it to create a .loc.json file in the home directory"
-
-TARGET_LIB = $(HOME)/dev/.library
-TARGET_CONF = $(HOME)/dev/.config 
-TARGET_BIN = $(HOME)/dev/.bin 
-TARGET_SCRIPTS = $(HOME)/dev/.scripts 
-TARGET_WORK = $(HOME)/dev/workspace
-
-.PHONY: loc
-loc:
-	echo "downloading loc-maker..."
-	curl -L -O https://github.com/SPoovathumkadavil/loc-maker/releases/download/release/loc-maker
-	chmod +x loc-maker
-	echo "creating .loc.json file..."
-	./loc-maker -n library=$(TARGET_LIB) bin=$(TARGET_BIN) config=$(TARGET_CONF) scripts=$(TARGET_SCRIPTS) workspace=$(TARGET_WORK)
-	echo "cleaning up..."
-	rm loc-maker
-	echo "done."
